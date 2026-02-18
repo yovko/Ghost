@@ -51,7 +51,7 @@ describe('UNIT - services/routing/StaticRoutesRouter', function () {
 
             // parent route
             assert.equal(mountRouteSpy.args[0][0], '/about/');
-            mountRouteSpy.args[0][1].should.eql(controllers.static);
+            assert.equal(mountRouteSpy.args[0][1], controllers.static);
         });
 
         it('initialize with data+filter', function () {
@@ -73,7 +73,7 @@ describe('UNIT - services/routing/StaticRoutesRouter', function () {
 
             // parent route
             assert.equal(mountRouteSpy.args[0][0], '/about/');
-            mountRouteSpy.args[0][1].should.eql(controllers.static);
+            assert.equal(mountRouteSpy.args[0][1], controllers.static);
         });
 
         it('fn: _prepareStaticRouteContext', function () {
@@ -85,7 +85,7 @@ describe('UNIT - services/routing/StaticRoutesRouter', function () {
             res.routerOptions.should.have.properties('type', 'templates', 'defaultTemplate', 'context', 'data', 'contentType');
             assert.equal(res.routerOptions.type, 'custom');
             assert.deepEqual(res.routerOptions.templates, []);
-            res.routerOptions.defaultTemplate.should.be.a.Function();
+            assert.equal(typeof res.routerOptions.defaultTemplate, 'function');
             assert.deepEqual(res.routerOptions.context, ['about']);
             assert.deepEqual(res.routerOptions.data, {});
 
@@ -102,7 +102,7 @@ describe('UNIT - services/routing/StaticRoutesRouter', function () {
             res.routerOptions.should.have.properties('type', 'templates', 'defaultTemplate', 'context', 'data', 'contentType');
             assert.equal(res.routerOptions.type, 'custom');
             assert.deepEqual(res.routerOptions.templates, []);
-            res.routerOptions.defaultTemplate.should.be.a.Function();
+            assert.equal(typeof res.routerOptions.defaultTemplate, 'function');
             assert.deepEqual(res.routerOptions.context, ['index']);
             assert.deepEqual(res.routerOptions.data, {});
 
@@ -133,11 +133,11 @@ describe('UNIT - services/routing/StaticRoutesRouter', function () {
 
                 // parent route
                 assert.equal(mountRouteSpy.args[0][0], '/channel/');
-                mountRouteSpy.args[0][1].should.eql(controllers.channel);
+                assert.equal(mountRouteSpy.args[0][1], controllers.channel);
 
                 // pagination feature
                 assert.equal(mountRouteSpy.args[1][0], '/channel/page/:page(\\d+)');
-                mountRouteSpy.args[1][1].should.eql(controllers.channel);
+                assert.equal(mountRouteSpy.args[1][1], controllers.channel);
             });
 
             it('initialize with controller+filter', function () {
@@ -160,11 +160,11 @@ describe('UNIT - services/routing/StaticRoutesRouter', function () {
 
                 // parent route
                 assert.equal(mountRouteSpy.args[0][0], '/channel/');
-                mountRouteSpy.args[0][1].should.eql(controllers.channel);
+                assert.equal(mountRouteSpy.args[0][1], controllers.channel);
 
                 // pagination feature
                 assert.equal(mountRouteSpy.args[1][0], '/channel/page/:page(\\d+)');
-                mountRouteSpy.args[1][1].should.eql(controllers.channel);
+                assert.equal(mountRouteSpy.args[1][1], controllers.channel);
             });
 
             it('initialize with controller+data', function () {
@@ -189,11 +189,11 @@ describe('UNIT - services/routing/StaticRoutesRouter', function () {
 
                 // parent route
                 assert.equal(mountRouteSpy.args[0][0], '/channel/');
-                mountRouteSpy.args[0][1].should.eql(controllers.channel);
+                assert.equal(mountRouteSpy.args[0][1], controllers.channel);
 
                 // pagination feature
                 assert.equal(mountRouteSpy.args[1][0], '/channel/page/:page(\\d+)');
-                mountRouteSpy.args[1][1].should.eql(controllers.channel);
+                assert.equal(mountRouteSpy.args[1][1], controllers.channel);
             });
         });
 

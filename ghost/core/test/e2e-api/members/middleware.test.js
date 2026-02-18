@@ -1,5 +1,4 @@
 const assert = require('node:assert/strict');
-const {assertExists} = require('../../utils/assertions');
 const crypto = require('crypto');
 const {agentProvider, mockManager, fixtureManager, matchers, configUtils} = require('../../utils/e2e-framework');
 const {anyEtag, anyObjectId, anyUuid, anyISODateTime, stringMatching} = matchers;
@@ -79,7 +78,7 @@ describe('Comments API', function () {
                 })
                 .matchBodySnapshot(buildMemberMatcher(1))
                 .expect(({body}) => {
-                    body.email.should.eql(member.get('email'));
+                    assert.equal(body.email, member.get('email'));
                     assert.equal(body.enable_comment_notifications, false);
                 });
             member = await models.Member.findOne({id: member.id}, {require: true});
@@ -104,7 +103,7 @@ describe('Comments API', function () {
                 })
                 .matchBodySnapshot(memberMatcher(2))
                 .expect(({body}) => {
-                    body.email.should.eql(member.get('email'));
+                    assert.equal(body.email, member.get('email'));
                 });
         });
 
@@ -120,7 +119,7 @@ describe('Comments API', function () {
                 })
                 .matchBodySnapshot(memberMatcher(2))
                 .expect(({body}) => {
-                    body.email.should.eql(member.get('email'));
+                    assert.equal(body.email, member.get('email'));
                     assert.equal(body.expertise, 'Head of Testing');
                 });
             member = await models.Member.findOne({id: member.id}, {require: true});
@@ -139,7 +138,7 @@ describe('Comments API', function () {
                 })
                 .matchBodySnapshot(memberMatcher(2))
                 .expect(({body}) => {
-                    body.email.should.eql(member.get('email'));
+                    assert.equal(body.email, member.get('email'));
                     assert.equal(body.expertise, 'test');
                 });
             member = await models.Member.findOne({id: member.id}, {require: true});
@@ -158,7 +157,7 @@ describe('Comments API', function () {
                 })
                 .matchBodySnapshot(memberMatcher(2))
                 .expect(({body}) => {
-                    body.email.should.eql(member.get('email'));
+                    assert.equal(body.email, member.get('email'));
                     assert.equal(body.name, 'Test User');
                     assert.equal(body.firstname, 'Test');
                 });
@@ -181,7 +180,7 @@ describe('Comments API', function () {
                 })
                 .matchBodySnapshot(memberMatcher(2))
                 .expect(({body}) => {
-                    body.email.should.eql(member.get('email'));
+                    assert.equal(body.email, member.get('email'));
                     assert.equal(body.enable_comment_notifications, false);
                 });
             member = await models.Member.findOne({id: member.id}, {require: true});
@@ -202,7 +201,7 @@ describe('Comments API', function () {
                 })
                 .matchBodySnapshot(buildMemberMatcher(2))
                 .expect(({body}) => {
-                    body.email.should.eql(member.get('email'));
+                    assert.equal(body.email, member.get('email'));
                     assert.equal(body.enable_comment_notifications, true);
                 });
             member = await models.Member.findOne({id: member.id}, {require: true});
@@ -257,7 +256,7 @@ describe('Comments API', function () {
                 })
                 .matchBodySnapshot(memberMatcher(2))
                 .expect(({body}) => {
-                    body.email.should.eql(member.get('email'));
+                    assert.equal(body.email, member.get('email'));
                 });
         });
 
@@ -286,8 +285,8 @@ describe('Comments API', function () {
             await membersAgent
                 .get('/api/member/')
                 .expect(({headers}) => {
-                    assertExists(headers['set-cookie']);
-                    headers['set-cookie'].should.matchAny(/ghost-access=null;/);
+                    assert(Array.isArray(headers['set-cookie']));
+                    assert(headers['set-cookie'].some(h => /ghost-access=null;/.test(h)));
                 })
                 .expectStatus(204)
                 .expectEmptyBody();

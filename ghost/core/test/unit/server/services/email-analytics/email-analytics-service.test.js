@@ -64,7 +64,7 @@ describe('EmailAnalyticsService', function () {
             });
 
             const result = await service.getLastNonOpenedEventTimestamp();
-            result.should.eql(new Date(1));
+            assert.deepEqual(result, new Date(1));
         });
 
         it('returns the fallback if nothing is found', async function () {
@@ -76,7 +76,7 @@ describe('EmailAnalyticsService', function () {
             });
 
             const result = await service.getLastNonOpenedEventTimestamp();
-            result.should.eql(new Date(Date.now() - 30 * 60 * 1000)); // should be 30 mins prior
+            assert.deepEqual(result, new Date(Date.now() - 30 * 60 * 1000)); // should be 30 mins prior
         });
     });
 
@@ -90,7 +90,7 @@ describe('EmailAnalyticsService', function () {
             });
 
             const result = await service.getLastOpenedEventTimestamp();
-            result.should.eql(new Date(1));
+            assert.deepEqual(result, new Date(1));
         });
 
         it('returns the fallback if nothing is found', async function () {
@@ -102,7 +102,7 @@ describe('EmailAnalyticsService', function () {
             });
 
             const result = await service.getLastOpenedEventTimestamp();
-            result.should.eql(new Date(Date.now() - 30 * 60 * 1000)); // should be 30 mins prior
+            assert.deepEqual(result, new Date(Date.now() - 30 * 60 * 1000)); // should be 30 mins prior
         });
     });
 
@@ -870,8 +870,8 @@ describe('EmailAnalyticsService', function () {
 
             await service.aggregateEmailStats('memberId');
 
-            assert.equal(service.queries.aggregateEmailStats.calledOnce, true);
-            service.queries.aggregateEmailStats.calledWith('memberId').should.be.true;
+            sinon.assert.calledOnce(service.queries.aggregateEmailStats);
+            sinon.assert.calledWith(service.queries.aggregateEmailStats, 'memberId');
         });
     });
 
@@ -886,8 +886,8 @@ describe('EmailAnalyticsService', function () {
 
             await service.aggregateMemberStats('memberId');
 
-            assert.equal(service.queries.aggregateMemberStats.calledOnce, true);
-            service.queries.aggregateMemberStats.calledWith('memberId').should.be.true;
+            sinon.assert.calledOnce(service.queries.aggregateMemberStats);
+            sinon.assert.calledWith(service.queries.aggregateMemberStats, 'memberId');
         });
     });
 });

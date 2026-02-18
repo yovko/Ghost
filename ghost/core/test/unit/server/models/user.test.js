@@ -69,7 +69,7 @@ describe('Unit: models/user', function () {
                         throw new Error('expected ValidationError');
                     })
                     .catch(function (err) {
-                        err.should.be.an.Array();
+                        assert(Array.isArray(err));
                         assert.equal((err[0] instanceof errors.ValidationError), true);
                         assert.match(err[0].message, /users\.email/);
                     });
@@ -496,8 +496,7 @@ describe('Unit: models/user', function () {
                 .then(Promise.reject)
                 .catch((err) => {
                     assert(err instanceof errors.ValidationError);
-                    err.message.indexOf('Only administrators can')
-                        .should.be.aboveOrEqual(0, 'contains correct error message');
+                    assert(err.message.includes('Only administrators can'), 'contains correct error message');
                 });
         });
 
@@ -527,8 +526,7 @@ describe('Unit: models/user', function () {
                 .then(Promise.reject)
                 .catch((err) => {
                     assert(err instanceof errors.ValidationError);
-                    err.message.indexOf('Only active administrators can')
-                        .should.be.aboveOrEqual(0, 'contains correct error message');
+                    assert(err.message.includes('Only active administrators can'), 'contains correct error message');
                 });
         });
 

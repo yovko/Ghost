@@ -4,7 +4,9 @@ const should = require('should');
 const sinon = require('sinon');
 const crypto = require('crypto');
 const fs = require('fs-extra');
+const {assertExists} = require('../../../../utils/assertions');
 const settingsCache = require('../../../../../core/shared/settings-cache');
+const config = require('../../../../../core/shared/config');
 const privateBlogging = require('../../../../../core/frontend/apps/private-blogging/lib/middleware');
 
 function hash(password, salt) {
@@ -68,7 +70,7 @@ describe('Private Blogging', function () {
             };
             privateBlogging.redirectPrivateToHomeIfLoggedIn(req, res, next);
             assert.equal(res.redirect.called, true);
-            assert.equal(res.redirect.calledWith('http://127.0.0.1:2369/'), true);
+            assert.equal(res.redirect.calledWith(`${config.get('url')}/`), true);
         });
 
         it('handle404 should still 404', function () {
@@ -242,7 +244,7 @@ describe('Private Blogging', function () {
                 req.body = {password: 'wrongpassword'};
 
                 privateBlogging.doLoginToPrivateSite(req, res, next);
-                res.error.should.not.be.empty();
+                assertExists(res.error);
                 assert.equal(next.called, true);
             });
 
